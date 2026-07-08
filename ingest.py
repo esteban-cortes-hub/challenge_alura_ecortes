@@ -1,6 +1,12 @@
+from dotenv import load_dotenv
 from src.loader import cargar_documentos
+from src.rag import (
+    convertir_a_documentos_langchain,
+    dividir_documentos,
+    crear_base_vectorial,
+)
 
-
+load_dotenv()
 def main():
     documentos = cargar_documentos("docs")
 
@@ -9,13 +15,15 @@ def main():
         return
 
     print(f"Documentos encontrados: {len(documentos)}")
-    print("-" * 60)
 
-    for doc in documentos:
-        print(f"Archivo: {doc['nombre_archivo']}")
-        print(f"Caracteres: {doc['cantidad_caracteres']}")
-        print(f"Vista previa: {doc['contenido'][:300]}...")
-        print("-" * 60)
+    documentos_langchain = convertir_a_documentos_langchain(documentos)
+    chunks = dividir_documentos(documentos_langchain)
+
+    print(f"Chunks generados: {len(chunks)}")
+
+    crear_base_vectorial(chunks)
+
+    print("Base vectorial creada correctamente en data/chroma")
 
 
 if __name__ == "__main__":
