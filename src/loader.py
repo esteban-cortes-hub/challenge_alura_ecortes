@@ -1,5 +1,7 @@
 from pathlib import Path
+
 from docx import Document
+from pypdf import PdfReader
 
 
 def leer_docx(ruta_archivo: Path) -> str:
@@ -8,6 +10,7 @@ def leer_docx(ruta_archivo: Path) -> str:
 
     for parrafo in documento.paragraphs:
         texto = parrafo.text.strip()
+
         if texto:
             parrafos.append(texto)
 
@@ -16,6 +19,21 @@ def leer_docx(ruta_archivo: Path) -> str:
 
 def leer_md(ruta_archivo: Path) -> str:
     return ruta_archivo.read_text(encoding="utf-8")
+
+
+def leer_pdf(ruta_archivo: Path) -> str:
+    lector = PdfReader(ruta_archivo)
+    paginas = []
+
+    for numero_pagina, pagina in enumerate(lector.pages, start=1):
+        texto = pagina.extract_text()
+
+        if texto and texto.strip():
+            paginas.append(
+                f"[Página {numero_pagina}]\n{texto.strip()}"
+            )
+
+    return "\n\n".join(paginas)
 
 
 def cargar_documentos(carpeta_docs: str = "docs") -> list[dict]:
@@ -29,10 +47,14 @@ def cargar_documentos(carpeta_docs: str = "docs") -> list[dict]:
         if archivo.name.lower() == "readme.md":
             continue
 
-        if archivo.suffix.lower() == ".docx":
+        extension = archivo.suffix.lower()
+
+        if extension == ".docx":
             contenido = leer_docx(archivo)
-        elif archivo.suffix.lower() == ".md":
+        elif extension == ".md":
             contenido = leer_md(archivo)
+        elif extension == ".pdf":
+            contenido = leer_pdf(archivo)
         else:
             continue
 
