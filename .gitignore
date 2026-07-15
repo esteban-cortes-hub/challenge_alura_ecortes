@@ -22,3 +22,11 @@ data/
 docs/*.docx
 docs/*.md
 !docs/README.md
+docs/*.pdf
+
+# Permitir documentación pública de ejemplo
+!docs/README.md
+!docs/sample/
+!docs/sample/*.md
+!docs/sample/*.docx
+!docs/sample/*.pdf
