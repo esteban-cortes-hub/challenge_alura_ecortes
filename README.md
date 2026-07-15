@@ -8,6 +8,8 @@ La aplicación implementa un asistente de inteligencia artificial capaz de respo
 
 El proyecto utiliza una arquitectura RAG (*Retrieval-Augmented Generation*) para recuperar información relevante desde una base vectorial y generar respuestas fundamentadas en los documentos disponibles.
 
+* NOTA: La documentación original no será incluida en el proyecto por temas de confidencialidad, por lo cual se incluyen archivos de prueba.
+
 ## Objetivo
 
 Facilitar la consulta de documentación técnica de iTop sin necesidad de abrir y revisar manualmente múltiples archivos.
